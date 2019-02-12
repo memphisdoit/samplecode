@@ -2,9 +2,6 @@
 //  RegisterViewController.swift
 //  Memphis
 //
-//  Created by Igor Tudoran on 1/10/19.
-//  Copyright © 2019 Do IT. All rights reserved.
-//
 
 import UIKit
 import Alamofire
