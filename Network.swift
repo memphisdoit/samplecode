@@ -1,10 +1,6 @@
 //
 //  Network.swift
 //  Memphis
-//
-//  Created by Igor Tudoran on 12/26/18.
-//  Copyright © 2018 Igor Tudoran. All rights reserved.
-//
 
 import Foundation
 import Alamofire
