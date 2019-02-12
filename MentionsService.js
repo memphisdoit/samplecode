@@ -17,7 +17,7 @@ function MentionsService($rootScope, HttpService, AuthService, DeepCopyService, 
   /**
    * Get possible mentions list from backend
    * @param {string} query
-   * @returns {*}
+   * @returns {promise}
    */
   const getSupposedMentions = query => {
     const url = `/api/v1/mentions/findUser?name=${query}`
@@ -97,8 +97,8 @@ function MentionsService($rootScope, HttpService, AuthService, DeepCopyService, 
     tempMentions[id].filter(temp => !mentions.some(mention => mention.name === temp.name))
   /**
    * Filter temp mentions storage by string
-   * @param id
-   * @param string
+   * @param {string} id Input id
+   * @param {string} string
    * @returns {Array} Filtered tempMentions
    */
   const checkMentions = (id, string) => {
@@ -112,12 +112,12 @@ function MentionsService($rootScope, HttpService, AuthService, DeepCopyService, 
   }
   /**
    * Update item mentions on save
-   * @param item
-   * @param string
-   * @param id
-   * @param type
-   * @param isNew
-   * @returns {*}
+   * @param {object} item Tile or Message object
+   * @param {string} string New Tile or Message content
+   * @param {string} id Input id
+   * @param {string} type Item type
+   * @param {boolean} isNew Is new Tile or Message
+   * @returns {Array} Updated item mentions
    */
   const updateMentions = (item, string, id, type, isNew) => {
     if (!tempMentions[id]) tempMentions[id] = []
@@ -136,15 +136,19 @@ function MentionsService($rootScope, HttpService, AuthService, DeepCopyService, 
 
     return tempMentions[id]
   }
-
+  /**
+   * Get existing mentions from string
+   * @param {string} id Input id
+   * @param {string} string
+   */
   const getMentionsByString = (id, string) => {
     if (!tempMentions[id]) return []
     return checkMentions(id, string)
   }
   /**
    * Remove mentions if removed item
-   * @param item
-   * @param items
+   * @param {object} item Tile or Message object
+   * @param {Array} items Tile or Message objects Array
    */
   const removeMentionsOnRemoveItem = (item, items) => {
     if (items) {
@@ -159,8 +163,8 @@ function MentionsService($rootScope, HttpService, AuthService, DeepCopyService, 
   }
   /**
    * Move mentions to new collection on item move
-   * @param item
-   * @param newMosaic
+   * @param {object} item Tile or Message object
+   * @param {object} newMosaic Mosaic object
    * @returns {*}
    */
   const transferMentions = (item, newMosaic) => {
@@ -170,7 +174,7 @@ function MentionsService($rootScope, HttpService, AuthService, DeepCopyService, 
   }
   /**
    * Remove autocomplete library query
-   * @param string
+   * @param {string} string
    * @returns {*}
    */
   const removeAtwhoQuery = string => {
@@ -179,10 +183,10 @@ function MentionsService($rootScope, HttpService, AuthService, DeepCopyService, 
   }
   /**
    * Get mentions
-   * @param userId
-   * @param offset
-   * @param limit
-   * @returns {*}
+   * @param {string} userId ObjectId
+   * @param {number} offset
+   * @param {number} limit
+   * @returns {HttpPromise|JQueryXHR|*|void}
    */
   const getMentions = (userId, offset = 0, limit = 10) => {
     const url = `/api/v1/mentions?userId=${userId}&offset=${offset}&limit=${limit}`
@@ -190,7 +194,7 @@ function MentionsService($rootScope, HttpService, AuthService, DeepCopyService, 
   }
   /**
    * Mark one mention like read
-   * @param mentionId
+   * @param {string} mentionId ObjectId
    * @returns {HttpPromise|JQueryXHR|*|void}
    */
   const readMention = mentionId => {
@@ -199,7 +203,7 @@ function MentionsService($rootScope, HttpService, AuthService, DeepCopyService, 
   }
   /**
    * Mark all mentions like read
-   * @param userId
+   * @param {string} userId ObjectId
    * @returns {HttpPromise|JQueryXHR|*|void}
    */
   const markAllRead = userId => {
